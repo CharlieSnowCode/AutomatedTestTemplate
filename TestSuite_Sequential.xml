@@ -4,11 +4,13 @@
 
     <!-- use values "Dev" and "Test" -->
     <parameter name="Environment" value="Test"/>
-    <!-- use values "True" to run on server and "False" to run locally     -->
+    <!-- use values "True" to run on the Selenium server and "False" to run locally     -->
     <parameter name="Grid" value="False"/>
+    <!-- use "true" to launch browser in incognito mode     -->
+    <parameter name="Incognito" value="true"/>
 
 
-    <test name="Parallel">
+    <test name="VisitWebSites">
         <classes>
             <class name="TestTemplate"></class>
         </classes>

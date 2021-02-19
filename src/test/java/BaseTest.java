@@ -7,7 +7,6 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Properties;
@@ -23,10 +22,10 @@ public class BaseTest {
         return drivers.get();
     }
 
-    protected void InitializeTest(String env, String useGrid, boolean incognito) throws IOException {
+    protected void InitializeTest(String env, boolean useGrid, boolean incognito) throws IOException {
         // initialize file for environment-based settings
         environmentConfig = new Properties();
-        FileInputStream environmentConfigFile = null;
+        FileInputStream environmentConfigFile;
         if(env.equalsIgnoreCase("Test")){
             environmentConfigFile = new FileInputStream(System.getProperty("user.dir") +
                     "\\src\\main\\resources\\TestEnv.properties");
@@ -41,7 +40,7 @@ public class BaseTest {
         // currently only supporting Chrome
         System.setProperty("webdriver.chrome.driver",
                 (System.getProperty("user.dir") + "\\src\\main\\resources\\chromedriver.exe"));
-        if(useGrid.equalsIgnoreCase("True")){
+        if(useGrid){
             DesiredCapabilities capability = new DesiredCapabilities();
             ChromeOptions options = new ChromeOptions();
             options.addArguments("window-size=1680,1050");

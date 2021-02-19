@@ -6,9 +6,11 @@
     <parameter name="Environment" value="Dev"/>
     <!-- use values "True" to run on server and "False" to run locally     -->
     <parameter name="Grid" value="False"/>
+    <!-- use "true" to launch browser in incognito mode     -->
+    <parameter name="Incognito" value="false"/>
 
 
-    <test name="Parallel">
+    <test name="VisitWebSites">
         <classes>
             <class name="TestTemplate"></class>
         </classes>
