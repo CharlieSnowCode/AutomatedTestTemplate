@@ -21,6 +21,10 @@ import org.testng.annotations.*;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+
+import static org.openqa.selenium.support.locators.RelativeLocator.withTagName;
+
 
 public class TestTemplate extends BaseTest{
 
@@ -37,13 +41,36 @@ public class TestTemplate extends BaseTest{
     }
 
 
+    /*
+    Go to MacRumors site, show full contents of first article and
+    print out the date/time it was published in the console.
+     */
     @Test
     public void MacRumors() throws InterruptedException {
         WebDriver driver = getDriver();
         driver.get("https://www.macrumors.com/");
         // window size is set in BaseTest but we can also specify where the window is displayed
         driver.manage().window().setPosition(new Point(1000, 100));
+
+        // new features of Selenium4, "withTagName" and ".below"
+        // find the "next" anchor tag, which is to the right of "Archives" and click it
+        WebElement firstArticle = driver.findElement(withTagName("article"));
+        WebElement showFullArticle = firstArticle.findElement(By.partialLinkText("Show Full Article"));
+        WebElement timePublished = driver.findElement(withTagName("time").below(firstArticle));
+
+        String timeString = timePublished.getText();
+        System.out.println("The most recent article was published: ");
+        System.out.println(timeString);
         Thread.sleep(1000);
+
+        // scroll the link into view
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("window.scrollBy(0,800)");
+        Thread.sleep(5000);
+
+        // expand to show the full article in-line
+        showFullArticle.click();
+        Thread.sleep(3000);
     }
 
     @Test
@@ -70,11 +97,36 @@ public class TestTemplate extends BaseTest{
         Thread.sleep(5000);
     }
 
+    /*
+    Go to a site, simulate a user opening several tabs in the current browser.
+    Close each tab separately.
+     */
     @Test
     public void  CNBC() throws InterruptedException {
         WebDriver driver = getDriver();
         driver.get("https://cnbc.com");
+        String thisWindow = driver.getWindowHandle();
         Thread.sleep(1000);
+
+        // simulate user opening 2 more tabs
+        ((JavascriptExecutor)driver).executeScript("window.open()");
+        ((JavascriptExecutor)driver).executeScript("window.open()");
+        ArrayList<String> tabs = new ArrayList<>(driver.getWindowHandles());
+        driver.switchTo().window(tabs.get(1));
+        driver.get("https://www.google.com/");
+        driver.switchTo().window(tabs.get(2));
+        driver.get("https://www.google.com/");
+        Thread.sleep(2000);
+
+        // cycle through the tabs, closing each one but the original
+        for(String nextTab : driver.getWindowHandles()) {
+            driver.switchTo().window(nextTab);
+            if(!thisWindow.equalsIgnoreCase(nextTab)) {
+                driver.close();
+                Thread.sleep(2000);
+            }
+        }
+        Thread.sleep(5000);
     }
     @Test
     public void  CNET() throws InterruptedException {
