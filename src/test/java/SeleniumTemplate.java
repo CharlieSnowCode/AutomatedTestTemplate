@@ -1,8 +1,9 @@
 
 /*
-This class is a template to demonstrate the organization of new test classes that
+This class is a template to demonstrate the structure of a test class that
+- uses TestNG and Selenium
 - can use parallelization
-- takes a snapshot on failure
+- takes a snapshot on failure (target is 'Screenshots' folder)
 - logs any console errors
 
 To execute:
@@ -23,10 +24,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import static org.openqa.selenium.support.locators.RelativeLocator.withTagName;
+//import static org.openqa.selenium.support.locators.RelativeLocator.withTagName;
 
 
-public class TestTemplate extends BaseTest{
+public class SeleniumTemplate extends BaseTest{
 
     String environment;
 
@@ -52,7 +53,8 @@ public class TestTemplate extends BaseTest{
         // window size is set in BaseTest but we can also specify where the window is displayed
         driver.manage().window().setPosition(new Point(1000, 100));
 
-        // new features of Selenium4, "withTagName" and ".below"
+        /* new features of Selenium4, "withTagName" and ".below"
+        REMOVED SINCE WE COULDN'T GET SELENIDE TO WORK WITH THE ALPHA-VERSION OF SELENIUM 4
         // find the "next" anchor tag, which is to the right of "Archives" and click it
         WebElement firstArticle = driver.findElement(withTagName("article"));
         WebElement showFullArticle = firstArticle.findElement(By.partialLinkText("Show Full Article"));
@@ -70,6 +72,7 @@ public class TestTemplate extends BaseTest{
 
         // expand to show the full article in-line
         showFullArticle.click();
+        */
         Thread.sleep(3000);
     }
 
@@ -158,6 +161,7 @@ public class TestTemplate extends BaseTest{
         driver.get("https://developercommunity.visualstudio.com/spaces/21/index.html");
         Thread.sleep(1000);
     }
+
 
     // Run even if one or more methods failed or was skipped
     @AfterMethod(alwaysRun = true)

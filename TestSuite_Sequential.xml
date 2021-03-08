@@ -12,7 +12,7 @@
 
     <test name="VisitWebSites">
         <classes>
-            <class name="TestTemplate"></class>
+            <class name="SeleniumTemplate"></class>
         </classes>
     </test>
 
